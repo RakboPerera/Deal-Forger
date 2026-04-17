@@ -1,0 +1,40 @@
+{
+  "name": "Trading Comparables",
+  "version": "1.0",
+  "description": "Public company comparable trading multiples analysis",
+  "inputs": [
+    { "name": "targetRevenue", "type": "number", "unit": "$M", "source": "data", "description": "Target LTM revenue" },
+    { "name": "targetEbitda", "type": "number", "unit": "$M", "source": "data", "description": "Target LTM EBITDA" },
+    { "name": "targetNetIncome", "type": "number", "unit": "$M", "source": "data", "description": "Target LTM net income" },
+    {
+      "name": "comps",
+      "type": "array",
+      "source": "data",
+      "description": "Comparable public companies",
+      "itemSchema": {
+        "company_name": { "type": "string", "required": true },
+        "ev_ebitda": { "type": "number", "unit": "x", "required": true },
+        "ev_revenue": { "type": "number", "unit": "x", "required": true },
+        "pe_ratio": { "type": "number", "unit": "x", "required": false },
+        "revenue_growth_pct": { "type": "number", "unit": "%", "required": false },
+        "ebitda_margin_pct": { "type": "number", "unit": "%", "required": false }
+      }
+    }
+  ],
+  "outputs": [
+    "stats",
+    "impliedValues",
+    "selectedComps"
+  ],
+  "multiples": [
+    { "name": "evEbitda", "label": "EV / EBITDA", "primary": true },
+    { "name": "evRevenue", "label": "EV / Revenue", "primary": false },
+    { "name": "peRatio", "label": "P / E Ratio", "primary": false }
+  ],
+  "statisticMethods": ["median", "mean", "p25", "p75", "min", "max"],
+  "valuationRange": {
+    "low": "p25",
+    "mid": "median",
+    "high": "p75"
+  }
+}

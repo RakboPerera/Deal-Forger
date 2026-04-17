@@ -1,0 +1,27 @@
+{
+  "name": "Football Field Summary",
+  "version": "1.0",
+  "description": "Aggregated valuation summary across all methodologies with weighted blended value",
+  "inputs": [
+    { "name": "dcfResult", "type": "object", "source": "calculation", "description": "Output from calcDCF()" },
+    { "name": "compsResult", "type": "object", "source": "calculation", "description": "Output from calcTradingComps()" },
+    { "name": "precedentResult", "type": "object", "source": "calculation", "description": "Output from calcPrecedentTransactions()" }
+  ],
+  "outputs": [
+    "methods",
+    "blendedValue"
+  ],
+  "methods": [
+    { "name": "DCF", "weight": 0.4, "color": "#2563eb", "description": "Discounted Cash Flow intrinsic valuation" },
+    { "name": "Trading Comps", "weight": 0.3, "color": "#16a34a", "description": "Public company comparable multiples" },
+    { "name": "Precedent Transactions", "weight": 0.3, "color": "#d97706", "description": "Historical M&A transaction multiples" }
+  ],
+  "display": {
+    "chartType": "horizontalBar",
+    "showBlendedRange": true,
+    "showIndividualRanges": true,
+    "valueFormat": "$M",
+    "rangeFields": ["low", "mid", "high"]
+  },
+  "weightNormalization": "auto"
+}

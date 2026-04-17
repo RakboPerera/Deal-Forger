@@ -1,0 +1,39 @@
+{
+  "name": "Standard DCF",
+  "version": "1.0",
+  "description": "Discounted Cash Flow valuation using Gordon Growth Model terminal value",
+  "forecastYears": 5,
+  "inputs": [
+    { "name": "revenueGrowth", "type": "array", "length": 5, "unit": "%", "source": "assumption", "description": "Year-over-year revenue growth rates" },
+    { "name": "ebitdaMargins", "type": "array", "length": 5, "unit": "%", "source": "assumption", "description": "EBITDA margin for each projected year" },
+    { "name": "wacc", "type": "number", "unit": "%", "source": "assumption", "description": "Weighted average cost of capital" },
+    { "name": "terminalGrowthRate", "type": "number", "unit": "%", "source": "assumption", "description": "Perpetuity growth rate for terminal value" },
+    { "name": "taxRate", "type": "number", "unit": "%", "source": "assumption", "description": "Effective corporate tax rate" },
+    { "name": "capexPct", "type": "number", "unit": "%", "source": "assumption", "description": "Capital expenditure as % of revenue" },
+    { "name": "daPct", "type": "number", "unit": "%", "source": "assumption", "description": "Depreciation & amortization as % of revenue" },
+    { "name": "wcPct", "type": "number", "unit": "%", "source": "assumption", "description": "Change in working capital as % of revenue change" },
+    { "name": "baseRevenue", "type": "number", "unit": "$M", "source": "data", "description": "Base year (LTM) revenue" },
+    { "name": "baseEbitda", "type": "number", "unit": "$M", "source": "data", "description": "Base year (LTM) EBITDA" },
+    { "name": "totalDebt", "type": "number", "unit": "$M", "source": "data", "description": "Total debt for equity bridge" },
+    { "name": "cash", "type": "number", "unit": "$M", "source": "data", "default": 0, "description": "Cash and equivalents for equity bridge" }
+  ],
+  "outputs": [
+    "enterpriseValue",
+    "equityValue",
+    "impliedEvEbitda",
+    "impliedEvRevenue",
+    "terminalValuePct"
+  ],
+  "defaults": {
+    "wacc": 0.10,
+    "terminalGrowthRate": 0.025,
+    "taxRate": 0.25,
+    "capexPct": 0.05,
+    "daPct": 0.03,
+    "wcPct": 0.05
+  },
+  "sensitivity": {
+    "param1": { "name": "wacc", "range": [-0.02, -0.01, 0, 0.01, 0.02] },
+    "param2": { "name": "terminalGrowthRate", "range": [-0.01, -0.005, 0, 0.005, 0.01] }
+  }
+}

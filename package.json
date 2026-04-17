@@ -1,0 +1,14 @@
+{
+  "name": "dealforge-v2",
+  "version": "1.0.0",
+  "description": "Gen AI Financial Modelling & Deal Analysis Platform",
+  "private": true,
+  "scripts": {
+    "install:all": "cd backend && npm install && cd ../frontend && npm install",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "start": "cd backend && npm start",
+    "test": "cd backend && npm test"
+  }
+}

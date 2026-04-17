@@ -1,0 +1,42 @@
+{
+  "name": "Precedent Transactions",
+  "version": "1.0",
+  "description": "Historical M&A transaction multiples analysis with optional control premium",
+  "inputs": [
+    { "name": "targetRevenue", "type": "number", "unit": "$M", "source": "data", "description": "Target LTM revenue" },
+    { "name": "targetEbitda", "type": "number", "unit": "$M", "source": "data", "description": "Target LTM EBITDA" },
+    {
+      "name": "transactions",
+      "type": "array",
+      "source": "data",
+      "description": "Precedent M&A transactions",
+      "itemSchema": {
+        "transaction_name": { "type": "string", "required": true },
+        "ev_ebitda": { "type": "number", "unit": "x", "required": true },
+        "ev_revenue": { "type": "number", "unit": "x", "required": true },
+        "premium_pct": { "type": "number", "unit": "%", "required": false },
+        "date": { "type": "string", "format": "YYYY-MM-DD", "required": false },
+        "acquirer": { "type": "string", "required": false },
+        "target_name": { "type": "string", "required": false },
+        "deal_value": { "type": "number", "unit": "$M", "required": false }
+      }
+    },
+    { "name": "controlPremium", "type": "number", "unit": "%", "source": "assumption", "default": 0, "description": "Additional control premium applied to implied values" }
+  ],
+  "outputs": [
+    "stats",
+    "impliedValues",
+    "transactions",
+    "controlPremium"
+  ],
+  "multiples": [
+    { "name": "evEbitda", "label": "EV / EBITDA", "primary": true },
+    { "name": "evRevenue", "label": "EV / Revenue", "primary": false }
+  ],
+  "statisticMethods": ["median", "mean", "min", "max"],
+  "valuationRange": {
+    "low": "min",
+    "mid": "median",
+    "high": "max"
+  }
+}
