@@ -1,0 +1,32 @@
+# Render Blueprint — single Web Service that builds the Vite frontend and
+# serves it from Express alongside the API.
+#
+# On first deploy, Render reads this file via "Blueprints" and provisions
+# everything automatically. You can also use the UI path in the README.
+
+services:
+  - type: web
+    name: dealforge
+    runtime: node
+    plan: free
+    # Fixed Node version so sql.js / multer / mammoth don't drift
+    env: node
+    region: oregon          # pick one near you — oregon | frankfurt | singapore | ohio
+    buildCommand: |
+      cd backend && npm install
+      cd ../frontend && npm install && npm run build
+    startCommand: cd backend && npm start
+    healthCheckPath: /api/meta/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: 22.11.0
+      - key: NODE_ENV
+        value: production
+      # Rate-limit cap for non-localhost traffic (localhost is exempt).
+      - key: RATE_LIMIT_PER_MIN
+        value: "600"
+      # Optional — the key is stored server-side only. Leave blank to deploy
+      # without AI features (chat + extraction fall back to SQL-only mode).
+      - key: ANTHROPIC_API_KEY
+        sync: false          # mark as secret; set value in Render dashboard
