@@ -10,8 +10,8 @@ let llmSettings = {
   anthropicKey: process.env.ANTHROPIC_API_KEY || '',
   openaiKey: process.env.OPENAI_API_KEY || '',
   provider: 'anthropic',
-  lightModel: 'claude-haiku-4-5',
-  heavyModel: 'claude-sonnet-4-5'
+  lightModel: 'claude-haiku-4-5-20251001',
+  heavyModel: 'claude-sonnet-4-5-20251001'
 };
 
 // Hydrate the LLM module from ENV on startup so server-restart with an
@@ -89,11 +89,11 @@ router.post('/validate-key', async (req, res) => {
     if (provider === 'anthropic' || !provider) {
       const client = new Anthropic({ apiKey });
       const response = await client.messages.create({
-        model: 'claude-haiku-4-5',
+        model: 'claude-haiku-4-5-20251001',
         max_tokens: 10,
         messages: [{ role: 'user', content: 'Reply with OK' }]
       });
-      res.json({ valid: true, provider: 'anthropic', model: 'claude-haiku-4-5' });
+      res.json({ valid: true, provider: 'anthropic', model: 'claude-haiku-4-5-20251001' });
     } else {
       res.status(400).json({ valid: false, error: `Provider '${provider}' not yet supported for validation` });
     }

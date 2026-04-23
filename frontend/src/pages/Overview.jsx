@@ -5,7 +5,8 @@ import {
   FileText, Brain, BarChart3, Target, CheckCircle, Zap, Shield, Code,
   ArrowRight, Layers, Database, MessageSquare, PieChart, Settings,
   Upload, GitBranch, Clock, Eye, Cpu, TrendingUp, AlertTriangle,
-  Users, ChevronRight
+  Users, ChevronRight, HelpCircle, Sparkles, GitCompare, Activity,
+  ClipboardList, Lock, Star
 } from 'lucide-react';
 
 /* ── Fade-in on scroll hook ──────────────────────────────────── */
@@ -73,17 +74,32 @@ export default function Overview() {
             <h1 style={styles.heroTitle}>
               <span style={styles.heroTitleAccent}>DealForge</span>
             </h1>
-            <p style={styles.heroTagline}>AI-Powered Deal Analysis & Financial Modelling</p>
+            <p style={styles.heroTagline}>From Document to IC Memo in Minutes, Not Days</p>
             <p style={styles.heroDesc}>
-              End-to-end investment analysis platform. From document intake to valuation models
-              to deal recommendations -- powered by AI agents, controlled by you.
+              End-to-end investment analysis platform. AI agents extract, model, and draft —
+              deterministic math and human review gates ensure institutional-grade output.
             </p>
+            <div style={styles.heroMetrics}>
+              {[
+                { before: '3–4 days', after: '2–4 min', label: 'deal intake' },
+                { before: 'manual', after: '18 fields', label: 'auto-extracted' },
+                { before: 'one scenario', after: '3 scenarios', label: 'base / up / down' },
+                { before: 'no audit trail', after: 'full log', label: 'every action' },
+              ].map((m, i) => (
+                <div key={i} style={styles.heroMetric}>
+                  <span style={styles.heroMetricBefore}>{m.before}</span>
+                  <span style={styles.heroMetricArrow}>→</span>
+                  <span style={styles.heroMetricAfter}>{m.after}</span>
+                  <span style={styles.heroMetricLabel}>{m.label}</span>
+                </div>
+              ))}
+            </div>
             <div style={styles.heroCtas}>
               <Link to="/pipeline" style={styles.ctaPrimary}>
                 Explore Pipeline <ArrowRight size={16} />
               </Link>
-              <Link to="/data" style={styles.ctaSecondary}>
-                View Data <ArrowRight size={16} />
+              <Link to="/dashboard" style={styles.ctaSecondary}>
+                View Dashboard <ArrowRight size={16} />
               </Link>
             </div>
           </div>
@@ -126,6 +142,81 @@ export default function Overview() {
                 <p style={styles.problemDesc}>{p.desc}</p>
               </div>
             ))}
+          </div>
+        </section>
+      </FadeSection>
+
+      {/* ════════════ THREE QUESTIONS ════════════ */}
+      <FadeSection>
+        <section style={styles.section}>
+          <div style={styles.sectionHeader}>
+            <span style={styles.sectionLabel}>Research Context</span>
+            <h2 style={styles.sectionTitle}>Three Questions That Drove This Build</h2>
+            <p style={styles.sectionSubtitle}>
+              DealForge began as a research initiative. These were the hypotheses. Here is how the platform answers each one.
+            </p>
+          </div>
+          <div style={styles.questionsGrid}>
+            {[
+              {
+                q: 'Can AI reliably produce financial models that meet institutional quality standards?',
+                status: 'Answered — and exceeded',
+                color: '#10b981',
+                icon: CheckCircle,
+                mechanisms: [
+                  'Quality scoring 0–100; pipeline auto-pauses if score < 70',
+                  'Per-field confidence (1.0 = unambiguous, 0.2 = estimated) on every extracted figure',
+                  'All arithmetic in deterministic JavaScript — AI supplies inputs, code does the math',
+                  'Cross-document reconciliation flags conflicts before data enters any model',
+                  'Per-stage agent trace: see which model ran, at what confidence, with what output',
+                ],
+              },
+              {
+                q: 'How does AI-assisted analysis compare to analyst-built models in accuracy?',
+                status: 'Tracked live in the Dashboard',
+                color: '#2563eb',
+                icon: GitCompare,
+                mechanisms: [
+                  'Dashboard "Valuation vs Analyst Estimate" chart — AI valuation vs analyst figure, per deal',
+                  'Color-coded delta signal: green (upside), grey (fair), red (overpriced)',
+                  'All three valuation methods shown separately: DCF, Trading Comps, Precedent Transactions',
+                  'Football field blends all three with configurable method weights',
+                  '5×5 sensitivity heatmap quantifies valuation variance across WACC × terminal growth',
+                ],
+              },
+              {
+                q: 'What is the optimal human-in-the-loop review workflow?',
+                status: 'Built end-to-end',
+                color: '#8b5cf6',
+                icon: Users,
+                mechanisms: [
+                  'HITL review queue: Approve / Reject / Changes Requested with audit-logged notes',
+                  'Pipeline auto-pauses on quality score < 70 — extraction cannot propagate without human sign-off',
+                  'Agent sector suggestions are non-destructive — analyst overrides are always preserved',
+                  'Stale model warnings on Recommendation tab if valuation model is rebuilt after memo is drafted',
+                  'Immutable audit log: every event, every actor, every change, timestamped and attributed',
+                ],
+              },
+            ].map((item, i) => {
+              const Icon = item.icon;
+              return (
+                <div key={i} style={styles.questionCard}>
+                  <div style={{ ...styles.questionStatus, background: `${item.color}12`, borderColor: `${item.color}30` }}>
+                    <Icon size={14} style={{ color: item.color, flexShrink: 0 }} />
+                    <span style={{ ...styles.questionStatusText, color: item.color }}>{item.status}</span>
+                  </div>
+                  <p style={styles.questionText}>"{item.q}"</p>
+                  <ul style={styles.questionList}>
+                    {item.mechanisms.map((m, j) => (
+                      <li key={j} style={styles.questionListItem}>
+                        <span style={{ ...styles.questionDot, background: item.color }} />
+                        {m}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
           </div>
         </section>
       </FadeSection>
@@ -198,6 +289,67 @@ export default function Overview() {
                 <AgentBadge icon={MessageSquare} label="Chat" />
               </div>
             </div>
+          </div>
+        </section>
+      </FadeSection>
+
+      {/* ════════════ BEYOND THE BRIEF ════════════ */}
+      <FadeSection>
+        <section style={{ ...styles.section, paddingTop: 0 }}>
+          <div style={styles.sectionHeader}>
+            <span style={styles.sectionLabel}>What We Built Beyond Scope</span>
+            <h2 style={styles.sectionTitle}>Beyond the Brief</h2>
+            <p style={styles.sectionSubtitle}>
+              The original questions set the floor. These capabilities emerged during the build — none were in the original brief.
+            </p>
+          </div>
+          <div style={styles.beyondGrid}>
+            {[
+              {
+                icon: ClipboardList,
+                color: '#2563eb',
+                title: 'AI-Drafted IC Memos',
+                desc: 'One click generates a 4-section Investment Committee memo — thesis, risks, valuation summary, recommended action — grounded in live deal data. Versioned, exportable, and linked to the specific model run it was drafted from.',
+              },
+              {
+                icon: MessageSquare,
+                color: '#8b5cf6',
+                title: 'Chat Agent with 6 Database Tools',
+                desc: 'Ask any question about any deal. A 3-tier router/worker/synthesizer architecture uses 6 structured tools to query live financials, compare scenarios, find similar deals, and summarise assumptions — with full tool-call transparency.',
+              },
+              {
+                icon: Activity,
+                color: '#10b981',
+                title: 'Portfolio Analytics Dashboard',
+                desc: '11+ widgets including IRR/MOIC ranking, pipeline funnel, sector distribution, growth vs margin scatter, and the AI vs Analyst Estimate comparison. Auto-refreshes; one failed widget never blanks the page.',
+              },
+              {
+                icon: GitBranch,
+                color: '#f59e0b',
+                title: 'Observation-Anchored Assumptions',
+                desc: 'Year-1 growth assumptions are pegged to the deal\'s own observed historical growth — not generic sector defaults. Every assumption carries a source rationale traceable to the document and period it came from.',
+              },
+              {
+                icon: Lock,
+                color: '#ec4899',
+                title: 'Immutable Audit Trail',
+                desc: 'Every event — document upload, extraction completion, model build, HITL approval, memo draft — is logged with timestamp, actor, and change details. The Timeline tab gives a per-deal chronological view of the full analysis history.',
+              },
+            ].map((item, i) => {
+              const Icon = item.icon;
+              return (
+                <div key={i} style={styles.beyondCard}>
+                  <div style={{ ...styles.beyondIconWrap, background: `${item.color}12` }}>
+                    <Icon size={22} style={{ color: item.color }} />
+                  </div>
+                  <div>
+                    <div style={styles.beyondBadge}>Not in original scope</div>
+                    <h4 style={styles.beyondTitle}>{item.title}</h4>
+                    <p style={styles.beyondDesc}>{item.desc}</p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </section>
       </FadeSection>
@@ -300,21 +452,54 @@ export default function Overview() {
       <FadeSection>
         <section style={styles.section}>
           <div style={styles.sectionHeader}>
-            <span style={styles.sectionLabel}>Design Philosophy</span>
-            <h2 style={styles.sectionTitle}>Key Principles</h2>
+            <span style={styles.sectionLabel}>Why an IC Should Trust This Output</span>
+            <h2 style={styles.sectionTitle}>Institutional Quality Guarantees</h2>
+            <p style={styles.sectionSubtitle}>
+              Every design decision answers the same question: how do we ensure an analyst can stand behind this output in front of an Investment Committee?
+            </p>
           </div>
           <div style={styles.principlesGrid}>
             {[
-              { icon: Layers, title: 'Templates, Not Generation', desc: 'Models from pre-defined templates, not AI invention' },
-              { icon: Eye, title: 'Human in the Loop', desc: 'Every model output reviewed and approved by analyst' },
-              { icon: Code, title: 'All Math in JS', desc: 'Deterministic calculations, never AI arithmetic' },
-              { icon: AlertTriangle, title: 'Every Assumption Flagged', desc: 'Full traceability from input to output' },
-              { icon: Shield, title: 'No Black Box', desc: 'Click any cell to see its derivation' },
-              { icon: Zap, title: 'Pure JS, No Dependencies', desc: 'Runs anywhere, no native bindings' },
+              {
+                icon: Shield,
+                color: '#10b981',
+                title: 'Quality-Gated Pipeline',
+                desc: 'Extraction scores every document 0–100. A score below 70 automatically pauses the pipeline and routes to human review — low-confidence data cannot reach a model without analyst sign-off.',
+              },
+              {
+                icon: Star,
+                color: '#f59e0b',
+                title: 'Per-Field Confidence Scoring',
+                desc: 'Every extracted number carries a confidence score (1.0 = directly stated, 0.2 = estimated). Analysts see exactly which figures are solid and which need verification before building a model.',
+              },
+              {
+                icon: Code,
+                color: '#2563eb',
+                title: 'Zero AI Arithmetic',
+                desc: 'AI agents decide model inputs. JavaScript does all arithmetic — deterministically, reproducibly, without hallucination risk. The same inputs always produce the same outputs.',
+              },
+              {
+                icon: Eye,
+                color: '#8b5cf6',
+                title: 'Full Agent Transparency',
+                desc: 'Every stage of the intake pipeline shows which model ran, at what confidence, and what it produced. No step is hidden. The footer of every model output discloses the derivation.',
+              },
+              {
+                icon: AlertTriangle,
+                color: '#ef4444',
+                title: 'Every Assumption Source-Tagged',
+                desc: 'Assumptions carry a source rationale ("Anchored on observed FY growth of 44.1%"), not just a value. Upside and downside cases are explicit — not implicit in a single number.',
+              },
+              {
+                icon: GitCompare,
+                color: '#06b6d4',
+                title: 'Live AI vs Analyst Comparison',
+                desc: 'The Portfolio Dashboard directly compares AI-generated valuations against analyst estimates for every deal in the pipeline, with delta signals surfacing where the two diverge most.',
+              },
             ].map((p, i) => (
               <div key={i} style={styles.principleCard}>
-                <div style={styles.principleIcon}>
-                  <p.icon size={20} style={{ color: '#2563eb' }} />
+                <div style={{ ...styles.principleIcon, background: `${p.color}10` }}>
+                  <p.icon size={20} style={{ color: p.color }} />
                 </div>
                 <h4 style={styles.principleTitle}>{p.title}</h4>
                 <p style={styles.principleDesc}>{p.desc}</p>
@@ -369,6 +554,7 @@ const styles = {
     minHeight: '100%',
     overflowY: 'auto',
     background: '#fafbfc',
+    fontSize: '16px',
   },
 
   /* Hero */
@@ -800,5 +986,172 @@ const styles = {
     textAlign: 'center',
     padding: '32px 20px',
     borderTop: '1px solid #e2e8f0',
+  },
+
+  /* Hero metrics row */
+  heroMetrics: {
+    display: 'flex',
+    gap: 20,
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    margin: '0 auto 32px',
+    maxWidth: 680,
+  },
+  heroMetric: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: 2,
+    padding: '12px 16px',
+    background: 'rgba(255,255,255,0.05)',
+    border: '1px solid rgba(255,255,255,0.08)',
+    borderRadius: 10,
+    minWidth: 110,
+  },
+  heroMetricBefore: {
+    fontSize: '0.68rem',
+    color: '#64748b',
+    textDecoration: 'line-through',
+    textDecorationColor: '#475569',
+  },
+  heroMetricArrow: {
+    fontSize: '0.6rem',
+    color: '#475569',
+  },
+  heroMetricAfter: {
+    fontSize: '1.05rem',
+    fontWeight: 800,
+    color: '#60a5fa',
+    lineHeight: 1.1,
+  },
+  heroMetricLabel: {
+    fontSize: '0.64rem',
+    color: '#64748b',
+    textTransform: 'uppercase',
+    letterSpacing: '0.05em',
+    marginTop: 2,
+  },
+
+  /* Section subtitle */
+  sectionSubtitle: {
+    fontSize: '0.9rem',
+    color: '#64748b',
+    margin: '10px auto 0',
+    maxWidth: 600,
+    lineHeight: 1.6,
+    textAlign: 'center',
+  },
+
+  /* Three Questions */
+  questionsGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+    gap: 20,
+  },
+  questionCard: {
+    background: '#fff',
+    borderRadius: 14,
+    padding: '24px 22px',
+    border: '1px solid #e2e8f0',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 14,
+  },
+  questionStatus: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: 6,
+    padding: '5px 12px',
+    borderRadius: 20,
+    border: '1px solid',
+    alignSelf: 'flex-start',
+  },
+  questionStatusText: {
+    fontSize: '0.72rem',
+    fontWeight: 700,
+    textTransform: 'uppercase',
+    letterSpacing: '0.04em',
+  },
+  questionText: {
+    fontSize: '0.88rem',
+    fontWeight: 600,
+    color: '#1e293b',
+    margin: 0,
+    lineHeight: 1.5,
+    fontStyle: 'italic',
+  },
+  questionList: {
+    margin: 0,
+    padding: 0,
+    listStyle: 'none',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 8,
+  },
+  questionListItem: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    gap: 8,
+    fontSize: '0.82rem',
+    color: '#475569',
+    lineHeight: 1.5,
+  },
+  questionDot: {
+    width: 6,
+    height: 6,
+    borderRadius: '50%',
+    flexShrink: 0,
+    marginTop: 6,
+  },
+
+  /* Beyond the Brief */
+  beyondGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+    gap: 16,
+  },
+  beyondCard: {
+    background: '#fff',
+    borderRadius: 12,
+    padding: '22px 20px',
+    border: '1px solid #e2e8f0',
+    display: 'flex',
+    gap: 16,
+    alignItems: 'flex-start',
+  },
+  beyondIconWrap: {
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+  },
+  beyondBadge: {
+    display: 'inline-block',
+    fontSize: '0.62rem',
+    fontWeight: 700,
+    color: '#94a3b8',
+    background: '#f1f5f9',
+    border: '1px solid #e2e8f0',
+    borderRadius: 8,
+    padding: '2px 8px',
+    marginBottom: 6,
+    textTransform: 'uppercase',
+    letterSpacing: '0.05em',
+  },
+  beyondTitle: {
+    fontSize: '0.95rem',
+    fontWeight: 700,
+    color: '#1e293b',
+    margin: '0 0 6px',
+  },
+  beyondDesc: {
+    fontSize: '0.82rem',
+    color: '#64748b',
+    margin: 0,
+    lineHeight: 1.55,
   },
 };

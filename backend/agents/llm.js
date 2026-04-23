@@ -5,10 +5,8 @@ import Anthropic from '@anthropic-ai/sdk';
 // ---------------------------------------------------------------------------
 const MODELS = {
   anthropic: {
-    // Use the latest aliases (no datestamps) so the IDs don't rot when
-    // Anthropic publishes a new snapshot. Verified live against the API.
-    light: 'claude-haiku-4-5',
-    heavy: 'claude-sonnet-4-5',
+    light: 'claude-haiku-4-5-20251001',
+    heavy: 'claude-sonnet-4-5-20251001',
   },
   // Placeholder — add mappings here when the OpenAI provider is implemented.
   // openai: { light: 'gpt-4o-mini', heavy: 'gpt-4o' },

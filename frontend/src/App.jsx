@@ -25,7 +25,7 @@ export default function App() {
             <div className="page-content">
               <ErrorBoundary>
                 <Routes>
-                  <Route path="/" element={<Overview />} />
+                  <Route path="/" element={<div style={{ margin: '-24px' }}><Overview /></div>} />
                   <Route path="/pipeline" element={<Pipeline />} />
                   <Route path="/deals/:id" element={<DealDetail />} />
                   <Route path="/data" element={<DataWorkspace />} />
